@@ -25,7 +25,6 @@ class ScannerOverlay: UIView {
         super.init(frame: frame)
         line.backgroundColor = UIColor(hex: "4284E4")
         line.translatesAutoresizingMaskIntoConstraints = false
-
         addSubview(line)
     }
 
@@ -44,6 +43,31 @@ class ScannerOverlay: UIView {
 
         context?.setFillColor(overlayColor.cgColor)
         context?.fill(bounds)
+
+        let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.center
+
+        let font = UIFont.systemFont(ofSize: 14)
+
+        let textFontAttributes = [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle
+        ]
+
+        let text = "バーコードは自動で検出されます"
+
+        let w = UIScreen.main.bounds.size.width
+        let h = UIScreen.main.bounds.size.height
+        let textRect  = CGRect(x:0, y:h/2+130, width: w, height:20)
+
+        text.draw(in: textRect, withAttributes: textFontAttributes)
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+
+        UIGraphicsEndImageContext()
 
         // make a hole for the scanner
         let holeRect = calculateScanRect()
